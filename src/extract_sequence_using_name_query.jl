@@ -57,7 +57,6 @@ while !eof(file_input)
                 catch
                     false
                 end
-                update!(pb, position(file_input))
             end
             write(file_output, '\n')
             close(file_output)

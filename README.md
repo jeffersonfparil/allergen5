@@ -79,16 +79,21 @@ do
     cat focal.tmp other.tmp > ${gene}-${g}.pw.aln
     rm other.tmp
 done
+rm *.tmp
 ```
 
 ## Divide the pairs into windows
 ```shell
 for f in $(ls *.pw.aln)
 do
-julia src/split_alignment_pairs.jl \
-    ${f} \
-    30 \
-    6
+    # f=$(ls *.pw.aln | head -n1)
+    window_size=15
+    slide_size=15
+    julia src/split_alignment_pairs.jl \
+        ${f} \
+        ${window_size} \
+        ${slide_size} \
+        ${f}.split
 done
 
 ```
@@ -99,13 +104,16 @@ done
 # git clone https://github.com/kullrich/kakscalculator2.git
 # export PREFIX="."
 # cd kakscalculator2;make clean;make
-
-src/KaKs_Calculator \
-    -m MS \
-    -i LOC124688403-LOC124686040.pw.aln.window_slide.30_6.pw \
-    -o test.tmp
-
-Rscript src/plot_KaKs_across_windows.R \
-    test.tmp\
-    0.001
+for f in $(ls *.pw.aln.split)
+do
+    # f=$(ls *.pw.aln.split | head -n1)
+    src/KaKs_Calculator \
+        -m MS \
+        -i ${f} \
+        -o ${f}.kaks
+    Rscript src/plot_KaKs_across_windows.R \
+        ${f}.kaks \
+        0.001 \
+        allergen-5a
+done
 ```
