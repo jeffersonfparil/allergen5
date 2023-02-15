@@ -90,6 +90,7 @@ dependencies:
   - openssl=3.0.8=h0b41bf4_0
   - p7zip=16.02=h9c3ff4c_1001
   - pango=1.50.12=hd33c08f_1
+  - parallel=20230122=ha770c72_0
   - pcre2=10.40=hc3806b6_0
   - perl=5.32.1=2_h7f98852_perl5
   - pixman=0.40.0=h36c2ea0_0

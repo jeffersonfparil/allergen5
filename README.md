@@ -1,12 +1,31 @@
 # allergen5
 Trying to detect signatures of selection in allergen 5 of Lolium perenne and Lolium rigidum
 
-## Load conda environment
+
+## Installation
+
+1. Dowload [compare_genomes](https://github.com/jeffersonfparil/allergen5.git) repository
 ```shell
-# conda install -y wget r-base
+git clone https://github.com/jeffersonfparil/allergen5.git
+```
+
+2. Install conda
+```shell
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+sh ./Miniconda3-latest-Linux-x86_64.sh
+```
+
+3. **Log out of the current session, then log back in** to finish conda setup.
+
+4. Import and activate [allergen5 conda environment](allergen5.yml)
+```shell
+# conda install -y wget parallel r-base
 # conda install -y -c conda-forge julia
 # conda install -y -c bioconda mafft
-
+# conda env export -n allergen5 > allergen5.yml
+cd allergen5/
+conda env create -n allergen5 --file allergen5.yml
+conda activate allergen5
 ```
 
 ## Download the genome annotations and coding DNA sequences of Lolium perenne and Lolium rigidum
@@ -23,7 +42,6 @@ do
     url=$(echo ${line} | cut -d, -f2)
     wget ${url} -O - | gunzip -c - > ${spe}
 done
-
 ```
 
 ## Extract allergen 5a sequences and merge them into a single fasta file
@@ -102,7 +120,6 @@ do
         ${slide_size} \
         ${f}.split
 done
-
 ```
 
 ## Estimate non-synonymous/synonymous mutaton rates
@@ -111,13 +128,13 @@ done
 # git clone https://github.com/kullrich/kakscalculator2.git
 # export PREFIX="."
 # cd kakscalculator2;make clean;make
+parallel src/KaKs_Calculator \
+        -m MS \
+        -i {1} \
+        -o {1}.kaks ::: $(ls *.pw.aln.split)
+
 for f in $(ls *.pw.aln.split)
 do
-    # f=$(ls *.pw.aln.split | head -n1)
-    src/KaKs_Calculator \
-        -m MS \
-        -i ${f} \
-        -o ${f}.kaks
     Rscript src/plot_KaKs_across_windows.R \
         ${f}.kaks \
         0.001 \
