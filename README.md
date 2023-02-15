@@ -1,6 +1,14 @@
 # allergen5
 Trying to detect signatures of selection in allergen 5 of Lolium perenne and Lolium rigidum
 
+## Load conda environment
+```shell
+# conda install -y wget r-base
+# conda install -y -c conda-forge julia
+# conda install -y -c bioconda mafft
+
+```
+
 ## Download the genome annotations and coding DNA sequences of Lolium perenne and Lolium rigidum
 ```shell
 echo 'Lolium_rigidum.gff,https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/022/539/505/GCF_022539505.1_APGP_CSIRO_Lrig_0.1/GCF_022539505.1_APGP_CSIRO_Lrig_0.1_genomic.gff.gz
@@ -52,7 +60,6 @@ rm *.fasta
 
 ## Align the orthologs and paralogs of allergen 5a
 ```shell
-# yay -Syu mafft
 mafft allergens_5a.cds > allergens_5a.aln
 ```
 
