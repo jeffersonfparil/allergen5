@@ -127,7 +127,7 @@ done
 # cd src/
 # git clone https://github.com/kullrich/kakscalculator2.git
 # export PREFIX="."
-# cd kakscalculator2;make clean;make
+# cd kakscalculator2; make clean; make
 parallel src/KaKs_Calculator \
         -m MS \
         -i {1} \
